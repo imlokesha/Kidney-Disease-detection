@@ -14,14 +14,14 @@ This project exemplifies the end-to-end development of a deep learning project f
 ## Getting Started
 - Clone the repository
 ```bash
-git clone https://github.com/AryPratap/End-to-End-Kidney-Disease-detection-pipeline.git
+git clone https://github.com/imlokesha/Kidney-Disease-detection.git
 ```
 - Create conda environment after opening the repository
 ```
-conda create -n cnncls python=3.8 -y
+conda create -n kidney-classifier python=3.8 -y
 ```
 ```
-conda activate cnncls
+conda activate kidney-classifier
 ```
 - Install the dependencies
 ```
