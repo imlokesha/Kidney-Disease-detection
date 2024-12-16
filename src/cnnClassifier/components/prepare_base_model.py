@@ -21,6 +21,11 @@ class PrepareBaseModel:
     
     @staticmethod
     def _prepare_full_model(model, classes, freeze_all, freeze_till, learning_rate):
+        # 1. Layer Freezing (Transfer Learning):
+        """Controls which layers can be trained
+
+        freeze_all: If True, makes all layers non-trainable
+        freeze_till: Freezes layers up to a specific point"""
         if freeze_all:
             for layer in model.layers:
                 model.trainable = False
@@ -28,21 +33,25 @@ class PrepareBaseModel:
             for layer in model.layers[:-freeze_till]:
                 model.trainable = False
 
-        flatten_in = tf.keras.layers.Flatten()(model.output)
+        # 2. Adding classification layers
+        flatten_in = tf.keras.layers.Flatten()(model.output) #Converts the 2D feature maps to 1D vector
         prediction = tf.keras.layers.Dense(
             units=classes,
             activation="softmax"
-        )(flatten_in)
+        )(flatten_in) #Adds final classification layer
+
+        # 3. Creating full model - Combines base model with new classification head
 
         full_model = tf.keras.models.Model(
             inputs=model.input,
             outputs=prediction
         )
 
+        # 4. Compiling model
         full_model.compile(
-            optimizer=tf.keras.optimizers.SGD(learning_rate=learning_rate),
-            loss=tf.keras.losses.CategoricalCrossentropy(),
-            metrics=["accuracy"]
+            optimizer=tf.keras.optimizers.SGD(learning_rate=learning_rate),   #Uses SGD (Stochastic Gradient Descent) optimizer
+            loss=tf.keras.losses.CategoricalCrossentropy(),   #Categorical Cross-entropy loss for multi-class classification
+            metrics=["accuracy"] #Tracks accuracy during training
         )
 
         full_model.summary()

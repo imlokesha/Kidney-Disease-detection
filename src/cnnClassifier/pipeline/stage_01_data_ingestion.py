@@ -4,7 +4,6 @@ from src.cnnClassifier import logger
 import os
 import gdown
 
-
 STAGE_NAME = "Data Ingestion Stage"
 
 class DataIngestionTrainingPipeline():

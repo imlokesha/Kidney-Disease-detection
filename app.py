@@ -12,7 +12,7 @@ CORS(app)
 
 class ClientApp:
     def __init__(self):
-        self.filename = "inputImage.jpg"
+        self.filename = "inputImage.jpg" # Default filename for saving uploaded images
         self.classifier = PredictionPipeline(self.filename)
 
 @app.route("/", methods=['GET'])
@@ -32,12 +32,12 @@ def trainRoute():
 @cross_origin()
 def predictRoute():
     image = request.json['image']
-    decodeImage(image, clApp.filename)
-    result = clApp.classifier.predict()
+    decodeImage(image, clApp.filename)  # Uses clApp's filename
+    result = clApp.classifier.predict()  # Uses clApp's classifier
     return jsonify(result)
 
 
 if __name__ == "__main__":
-    clApp = ClientApp()
+    clApp = ClientApp()   # Creates an instance of ClientApp
 
     app.run(host='0.0.0.0', port=8080) #for AWS

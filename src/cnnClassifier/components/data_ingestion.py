@@ -1,6 +1,6 @@
 import os
 import zipfile
-import gdown
+import gdown #library to download files from Google Drive
 from src.cnnClassifier import logger
 from src.cnnClassifier.utils.common import get_size
 from src.cnnClassifier.entity.config_entity import DataIngestionConfig
@@ -21,6 +21,10 @@ class DataIngestion:
             os.makedirs("artifacts/data_ingestion", exist_ok=True)
             logger.info(f"Downloading data from {dataset_url} into file {zip_download_dir}")
 
+
+            """split("/") divides the URL string into a list at each forward slash
+                [-2] takes the second-to-last element from that list
+                This element is the file ID needed for downloading from Google Drive"""
             file_id = dataset_url.split("/")[-2]
             prefix = 'https://drive.google.com/uc?/export=download&id='
             gdown.download(prefix+file_id,zip_download_dir)
